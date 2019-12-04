@@ -76,6 +76,16 @@ public class GameServiceImpl implements GameService {
         return game;
     }
 
+    /**
+     * Get the Random index value to fill in Location x/y coordinates.
+     * @return int
+     */
+    private int randomLocationIndex() {    	
+    	int [] randomIndex = {0,1,2};
+    	Random random = new Random();    	    	
+    	return randomIndex[random.nextInt(randomIndex.length)];
+    }
+    
     @Override
     public State makeMove(Long gameId, Location location) {
         Game game = gameRepository.findById(gameId);
@@ -88,7 +98,18 @@ public class GameServiceImpl implements GameService {
         	newState.setTitle("Game Not Available");        
         }
         else {
-        	newState = getState(game, location);
+        	//Human Move
+        	newState =  getState(game, location);
+        	
+            //Computer Move
+        	if(!(newState.getCode().equals(RepositoryConstants.STATE_CODE_DRAW) 
+        			|| newState.getCode().equals(RepositoryConstants.STATE_CODE_O_WON)
+        					 || newState.getCode().equals(RepositoryConstants.STATE_CODE_X_WON))) {
+        		Location computerLocation = new Location();
+            	computerLocation.setX(randomLocationIndex());
+            	computerLocation.setY(randomLocationIndex());
+            	newState = getState(game, computerLocation);
+        	}
             
         }
         
