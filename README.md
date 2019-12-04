@@ -1,5 +1,9 @@
 # tic-tac-toe-service
- 
+
+Clone the repository , RUN as spring boot application.
+Application automatically creates HSQL Database internally.
+SQL SCHEMA and DATA files are available under resources/sq/ folder.
+
 Create Game POST Request:
 
 http://localhost:8080/game
